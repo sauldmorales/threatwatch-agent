@@ -1,0 +1,11 @@
+# Entorno virtual
+.venv/
+
+# Cachés de Python / pytest
+__pycache__/
+.pytest_cache/
+
+# Artefactos de build / instalación
+*.egg-info/
+dist/
+build/
