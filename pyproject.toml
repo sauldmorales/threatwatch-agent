@@ -5,8 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "threatwatch"
 version = "0.1.0"
-description = "Local threat scanner for auth.log"
-requires-python = ">=3.8"
+description = "Simple local threat scanner for Linux auth logs"
+requires-python = ">=3.10"
+
+[project.scripts]
+threatwatch = "threatwatch.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

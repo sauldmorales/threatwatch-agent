@@ -9,3 +9,11 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
