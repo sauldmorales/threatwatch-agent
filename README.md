@@ -67,9 +67,20 @@ threatwatch-agent/
 
 ```bash
 
-pytest
+pytest -q
 
 ```
+## Security Checks (Local)
+
+```bash
+
+# Static analysis ( common python security issues )
+bandit -r src -ll
+
+# Dependency CVE audit
+pip-audit
+```
+
 ## Notes
 
 ```bash
