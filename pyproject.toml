@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "threatwatch"
-version = "0.1.0"
+version = "1.1.0"
 description = "Simple local threat scanner for Linux auth logs"
 requires-python = ">=3.10"
 
