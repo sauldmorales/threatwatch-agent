@@ -1,26 +1,46 @@
-# Entorno virtual
+# --- Virtual environments ---
 .venv/
+venv/
+env/
 
-# Cachés de Python / pytest
+# --- Python bytecode / caches ---
 __pycache__/
+*.py[cod]
+*$py.class
+
+# --- Pytest / coverage ---
 .pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
 
-# Artefactos de build / instalación
-*.egg-info/
-dist/
-build/
-.venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.egg-info/
-dist/
-build/
-
-# Python caches
-__pycache__/
-*.pyc
-.pytest_cache/
+# --- Type checkers / linters ---
 .mypy_cache/
 .ruff_cache/
+.pytype/
+.pyre/
+
+# --- Packaging / build artifacts ---
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+*.whl
+
+# --- Test / automation envs ---
+.tox/
+.nox/
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Logs / temp ---
+*.log
+*.tmp
