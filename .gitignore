@@ -3,10 +3,19 @@
 venv/
 env/
 
+# --- Environment files / secrets ---
+.env
+.env.*
+*.pem
+*.key
+
 # --- Python bytecode / caches ---
 __pycache__/
 *.py[cod]
 *$py.class
+
+# --- Generic caches ---
+.cache/
 
 # --- Pytest / coverage ---
 .pytest_cache/
@@ -33,6 +42,9 @@ pip-wheel-metadata/
 .tox/
 .nox/
 
+# --- Jupyter ---
+.ipynb_checkpoints/
+
 # --- OS / editor junk ---
 .DS_Store
 Thumbs.db
@@ -44,3 +56,5 @@ Thumbs.db
 # --- Logs / temp ---
 *.log
 *.tmp
+.github/copilot-instructions.md
+.github/copilot-instructions.md

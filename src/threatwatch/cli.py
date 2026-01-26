@@ -12,7 +12,7 @@ def _collect_lines(path: str) -> List[str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="ThreatWatch v0.1 – simple local threat scanner"
+        description="ThreatWatch v1.1.0 – simple local threat scanner"
     )
 
     parser.add_argument(
@@ -30,7 +30,11 @@ def main() -> None:
     args = parser.parse_args()
 
     # 1) Leer líneas crudas del log
-    lines = _collect_lines(args.auth_log_path)
+    try:
+        lines = _collect_lines(args.auth_log_path)
+    except FileNotFoundError:
+        print(f"[ERROR] El archivo no existe: {args.auth_log_path}")
+        return
 
     # 2) Parsear líneas a LogEntry
     parser_obj = LogParser()
@@ -47,7 +51,7 @@ def main() -> None:
         # json.dumps no sabe manejar datetime, usamos default=str
         print(json.dumps(report, default=str, indent=2))
     else:
-        print("=== ThreatWatch v0.1 ===")
+        print("=== ThreatWatch v1.1.0 ===")
         print(f"File analyzed: {args.auth_log_path}")
         print(f"Total lines: {report['total_lines']}")
         print(f"Failed login lines: {report['failed_login_lines']}")

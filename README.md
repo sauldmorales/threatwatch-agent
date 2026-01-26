@@ -1,4 +1,4 @@
-# ThreatWatch Agent
+# ThreatWatch Agent v1.1.0
 
 Small local threat scanner for Linux `auth.log`.  
 Parses authentication logs, counts failed logins, and flags brute-force style patterns (multiple failed attempts within a short window). Supports human output and JSON.
@@ -36,39 +36,47 @@ source .venv/bin/activate
 
 python -m pip install --upgrade pip
 python -m pip install -e .
-python -m pip install pytest
+python -m pip install -r requirements-dev.txt
 ```
 
 ## Usage
 
 ```bash
- Scan the sample log: threatwatch --auth-log-path sample_data/auth.log
- JSON output: threatwatch --auth-log-path sample_data/auth.log --json
+threatwatch --auth-log-path sample_data/auth.log
+threatwatch --auth-log-path sample_data/auth.log --json
 ```
 
 ## Project Structure
 
 ```bash
 threatwatch-agent/
+├─ .github/
+│  └─ workflows/
+│     └─ tests.yml
 ├─ sample_data/
 │  └─ auth.log
 ├─ src/
 │  └─ threatwatch/
 │     ├─ __init__.py
-│     ├─ log_collector.py
 │     ├─ auth_log_analyzer.py
 │     └─ cli.py
 ├─ tests/
-│  └─ test_smoke.py
+│  ├─ test_smoke.py
+│  ├─ test_e2e_cli_json.py
+│  ├─ integration/
+│  │  └─ test_cli_json_output.py
+│  └─ unit/
+│     └─ test_parser_smoke.py
+├─ LICENSE
 ├─ pyproject.toml
+├─ requirements.txt
+├─ requirements-dev.txt
 └─ README.md
 ```
 ## Test
 
 ```bash
-
 pytest -q
-
 ```
 ## Security Checks (Local)
 
@@ -80,6 +88,32 @@ bandit -r src -ll
 # Dependency CVE audit
 pip-audit
 ```
+
+## Formatting
+
+```bash
+ruff check src tests
+black src tests
+```
+
+## JSON Output
+
+Fields in JSON mode:
+
+- `total_lines`: total de lineas analizadas.
+- `failed_login_lines`: total de lineas con fallos de autenticacion detectados.
+- `bruteforce_sources`: mapa de fuente sospechosa a detalle.
+  - `count`: total de eventos fallidos para esa fuente.
+  - `first`: timestamp del primer evento visto.
+  - `last`: timestamp del ultimo evento visto.
+
+## Parser Notes
+
+Se detectan variantes comunes:
+
+- `Failed password for <user> from <ip>`
+- `Failed password for invalid user <user> from <ip>`
+- `Invalid user <user> from <ip>`
 
 ## Notes
 

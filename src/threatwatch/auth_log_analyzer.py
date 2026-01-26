@@ -29,10 +29,16 @@ _BASE_PATTERN = re.compile(
     re.VERBOSE,
 )
 
-# Detecta "Failed password for X from IP"
-_FAILED_LOGIN_PATTERN = re.compile(
-    r"Failed password for (?P<username>\S+) from (?P<ip>\d+\.\d+\.\d+\.\d+)"
-)
+# Detecta variantes comunes de fallos de autenticacion SSH
+_FAILED_LOGIN_PATTERNS = [
+    re.compile(
+        r"Failed password for (?P<username>\S+) from (?P<ip>\d+\.\d+\.\d+\.\d+)"
+    ),
+    re.compile(
+        r"Failed password for invalid user (?P<username>\S+) from (?P<ip>\d+\.\d+\.\d+\.\d+)"
+    ),
+    re.compile(r"Invalid user (?P<username>\S+) from (?P<ip>\d+\.\d+\.\d+\.\d+)"),
+]
 
 
 @dataclass
@@ -50,7 +56,7 @@ class LogEntry:
 class LogParser:
     def __init__(self) -> None:
         self._base_pattern = _BASE_PATTERN
-        self._failed_login_pattern = _FAILED_LOGIN_PATTERN
+        self._failed_login_patterns = _FAILED_LOGIN_PATTERNS
 
     def parse_line(self, line: str) -> Optional[LogEntry]:
         line = line.strip()
@@ -67,10 +73,12 @@ class LogParser:
         username = None
         ip_address = None
 
-        failed_match = self._failed_login_pattern.search(data["message"])
-        if failed_match:
-            username = failed_match.group("username")
-            ip_address = failed_match.group("ip")
+        for pattern in self._failed_login_patterns:
+            failed_match = pattern.search(data["message"])
+            if failed_match:
+                username = failed_match.group("username")
+                ip_address = failed_match.group("ip")
+                break
 
         # --- Manejar fecha (año fantasma: usamos año actual) ---
         current_year = datetime.now().year
